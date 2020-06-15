@@ -57,3 +57,8 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+#destination{
+  position: absolute;
+  left: 600px;
+  top: 800px;
+}
