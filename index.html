@@ -13,26 +13,14 @@
 
   <body>
     <h1>
-      IBM Watson <br />
-      Motion Detector Anylyser
+      PI Video Stream<br />
     </h1>
-    <label id="takepicture" class="switch">
-      <input type="checkbox" name="pictureSnapshot" />
-      <span class="slider round"></span>
-    </label>
-    <span>Picture SnapShot</span>
-    <br />
-    <label class="switch">
-      <input type="checkbox" name="sendWatsonOn-Off" />
-      <span class="slider round"></span>
-    </label>
+   
     <span>IBM Watson ON/OFF</span>
     <br />
     <button id="start" aria-setsize="40">START</button>
   </body>
   <script>
-    let snapShotChecked = "";
-    let watsonChecked = "";
 
 
     const button = document.querySelector("button");
@@ -40,16 +28,8 @@
       console.log("button worked");
       video.play();
     });
-    let pictureSnapshot = document.querySelector("input[name=pictureSnapshot]");
-    pictureSnapshot.addEventListener("change", function() {
-      snapShotChecked = this.checked;
-      console.log("Take Pictures " + this.checked);
-    });
-    let watsonOnOff = document.querySelector("input[name=sendWatsonOn-Off]");
-    watsonOnOff.addEventListener("change", function() {
-      watsonChecked = this.checked;
-      console.log("WatsonChecked " + this.checked);
-    });
+    
+    
     //Receiving <canvas> from H264(Rasberry PI Format) only loaded in memoy
     const canvas = document.createElement("canvas");
     const video = document.createElement("video");
