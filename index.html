@@ -36,6 +36,8 @@
     let canvasD = document.createElement("canvas");
     let ctxD = canvasD.getContext("2d");
     const pellicule = document.createElement("div");
+    
+    document.body.appendChild(canvas).setAttribute("id", "source");
     document.body.appendChild(canvasD).setAttribute("id", "destination");
     document.body.appendChild(pellicule).setAttribute("class", "strip");
 
