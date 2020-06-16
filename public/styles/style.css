@@ -59,6 +59,6 @@ input:checked + .slider:before {
 }
 #source{
   position: absolute;
-  left: 800px;
+  left: 0 px;
   top: 600px;
 }
