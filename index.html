@@ -22,15 +22,14 @@
 
       //Receiving <canvas> from H264(Rasberry PI Format) only loaded in memory
       const canvas = document.createElement("canvas");
-      const video = document.createElement("video");
-      let canvasD = document.createElement("canvas");
-      ctxD = canvasD.getContext("2d");
-      const pellicule = document.createElement("div");
+      // const video = document.createElement("video");
+      // let canvasD = document.createElement("canvas");
+      // ctxD = canvasD.getContext("2d");
+      // const pellicule = document.createElement("div");
       document.body.appendChild(canvas).setAttribute("id", "source");
-      document.body.appendChild(video).setAttribute("id", "video");
-      document.body.appendChild(canvasD).setAttribute("id", "destination");
-      document.body.appendChild(pellicule).setAttribute("class", "strip");
-
+      // document.body.appendChild(video).setAttribute("id", "video");
+      // document.body.appendChild(canvasD).setAttribute("id", "destination");
+      
       // Streaming to Canvas from Raspberry PI with Express Socket
       // <canvas> WEBGL(H264) This Canvas is not showing up on page it runs in the background
         const button = document.querySelector("button");
