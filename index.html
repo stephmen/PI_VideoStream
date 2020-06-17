@@ -28,10 +28,10 @@
       // Streaming to Canvas from Raspberry PI with Express Socket
       // <canvas> WEBGL(H264) This Canvas is not showing up on page it runs in the background
         const button = document.querySelector("button");
-        // button.addEventListener("click",function () {
-        //   console.log("button worked")
-        //   video.play();
-        // })
+        button.addEventListener("click",function () {
+          console.log("button worked")
+          video.play();
+        })
         firstVid()
       play();
       function firstVid () {
@@ -81,7 +81,7 @@
 
         let data = ctxD.getImageData(0, 0, w, h).data;
 
-        loop through rows and columns
+        //loop through rows and columns
         for (var y = 0; y < h; y += sample_size) {
           for (var x = 0; x < w; x += sample_size) {
             //Formula to get the pixel position in the array
