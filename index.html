@@ -22,8 +22,13 @@
 
       //Receiving <canvas> from H264(Rasberry PI Format) only loaded in memory
       const canvas = document.createElement("canvas");
+      const video = document.createElement("video");
+      // let canvasD = document.createElement("canvas");
+      // ctxD = canvasD.getContext("2d");
+      // const pellicule = document.createElement("div");
       document.body.appendChild(canvas).setAttribute("id", "source");
-      
+      // document.body.appendChild(video).setAttribute("id", "video");
+      // document.body.appendChild(canvasD).setAttribute("id", "destination");
       
       // Streaming to Canvas from Raspberry PI with Express Socket
       // <canvas> WEBGL(H264) This Canvas is not showing up on page it runs in the background
@@ -45,7 +50,7 @@
           return stream;
         }
 
-          const stream = canvas.captureStream();
+          //const stream = canvas.captureStream();
 
           function play () {
             video.srcObject = getStream()
@@ -81,7 +86,7 @@
 
         let data = ctxD.getImageData(0, 0, w, h).data;
 
-        //loop through rows and columns
+        // loop through rows and columns
         for (var y = 0; y < h; y += sample_size) {
           for (var x = 0; x < w; x += sample_size) {
             //Formula to get the pixel position in the array
@@ -129,4 +134,5 @@
         strip.insertBefore(link, strip.firstElementChild);
       }
     </script>
+
 </html>
