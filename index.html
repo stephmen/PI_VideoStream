@@ -108,18 +108,18 @@
         alert = 0;
       }
 
-      function takePhoto() {
-        const strip = document.querySelector(".strip");
-        const post = new XMLHttpRequest();
-        const data = canvas.toDataURL("image/jpeg");
-        //post.open("POST", "/receive");
-        //post.send(data);
-        const link = document.createElement("a");
-        link.href = data;
-        link.setAttribute("download", "raspiImage");
-        link.innerHTML = `<img src="${data}" alt="AI Picture" />`;
-        strip.insertBefore(link, strip.firstElementChild);
-      }
+      // function takePhoto() {
+      //   const strip = document.querySelector(".strip");
+      //   const post = new XMLHttpRequest();
+      //   const data = canvas.toDataURL("image/jpeg");
+      //   //post.open("POST", "/receive");
+      //   //post.send(data);
+      //   const link = document.createElement("a");
+      //   link.href = data;
+      //   link.setAttribute("download", "raspiImage");
+      //   link.innerHTML = `<img src="${data}" alt="AI Picture" />`;
+      //   strip.insertBefore(link, strip.firstElementChild);
+      // }
     </script>
 
 </html>
