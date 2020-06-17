@@ -22,7 +22,7 @@
 
       //Receiving <canvas> from H264(Rasberry PI Format) only loaded in memory
       const canvas = document.createElement("canvas");
-      //const video = document.createElement("video");
+      const video = document.createElement("video");
       // let canvasD = document.createElement("canvas");
       // ctxD = canvasD.getContext("2d");
       // const pellicule = document.createElement("div");
@@ -32,13 +32,13 @@
       
       // Streaming to Canvas from Raspberry PI with Express Socket
       // <canvas> WEBGL(H264) This Canvas is not showing up on page it runs in the background
-        const button = document.querySelector("button");
-        button.addEventListener("click",function () {
-          console.log("button worked")
-          video.play();
-        })
+        // const button = document.querySelector("button");
+        // button.addEventListener("click",function () {
+        //   console.log("button worked")
+        //   video.play();
+        // })
         firstVid()
-      play();
+      //play();
       function firstVid () {
         const wsavc = new WSAvcPlayer(canvas, "webgl");
         const protocol = window.location.protocol === "http:" ? "ws:" : "wss:";
