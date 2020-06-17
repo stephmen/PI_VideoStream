@@ -5,134 +5,135 @@
     <title>PI_Motion</title>
     <link rel="stylesheet" type="text/css" href="/styles/style.css" />
   </head>
-  <script
-    type="text/javascript"
-    src="https://rawgit.com/131/h264-live-player/master/vendor/dist/http-live-player.js"
-  ></script>
-  <script src="lodash.js"></script>
 
   <body>
-    <h1>
-      PI Video Stream<br />
-    </h1>
-   
-    <span>IBM Watson ON/OFF</span>
-    <br />
-    <button id="start" aria-setsize="40">START</button>
+  <button> START </button>
   </body>
-  <script>
+    <!-- <script
+      type="text/javascript"
+      src="./http-live-player.js"
+    ></script> -->
+    <script
+      type="text/javascript"
+      src="https://rawgit.com/131/h264-live-player/master/vendor/dist/http-live-player.js"
+    ></script>
+    <script>
 
 
-    const button = document.querySelector("button");
-    button.addEventListener("click", function() {
-      console.log("button worked");
-      video.play();
-    });
-    
-    
-    //Receiving <canvas> from H264(Rasberry PI Format) only loaded in memoy
-    const canvas = document.createElement("canvas");
-    const video = document.createElement("video");
-    let canvasD = document.createElement("canvas");
-    let ctxD = canvasD.getContext("2d");
-    const pellicule = document.createElement("div");
-    
-    document.body.appendChild(canvasD).setAttribute("id", "destination");
-    // document.body.appendChild(canvasD).setAttribute("id", "destination");
-    // document.body.appendChild(pellicule).setAttribute("class", "strip");
+      //Receiving <canvas> from H264(Rasberry PI Format) only loaded in memory
+      const canvas = document.createElement("canvas");
+      const video = document.createElement("video");
+      let canvasD = document.createElement("canvas");
+      ctxD = canvasD.getContext("2d");
+      const pellicule = document.createElement("div");
+      document.body.appendChild(canvas).setAttribute("id", "source");
+      document.body.appendChild(video).setAttribute("id", "video");
+      document.body.appendChild(canvasD).setAttribute("id", "destination");
+      document.body.appendChild(pellicule).setAttribute("class", "strip");
 
-    // Streaming to Canvas from Raspberry PI with Express Socket
-    // <canvas> WEBGL(H264) This Canvas is not showing up on page it runs in the background
-    const wsavc = new WSAvcPlayer(canvas, "webgl");
-    const protocol = window.location.protocol === "http:" ? "ws:" : "wss:";
-    wsavc.connect(protocol + "//" + window.location.host + "/video-stream");
-
-    //Streaming to <video>(captureStream)
-
-    const stream = canvas.captureStream();
-    if (stream !== null) {
-      video.srcObject = stream;
-      var playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(_ => {})
-          .catch(error => {
-            console.log(error);
-          });
-      }
-    }
-    video.addEventListener("progress", StreamToCanvas2D);
-    //Streaming to <canvasD> ctx 2D
-    //Pixelisation Size
-    var sample_size = 10;
-    // make an array to hold our old pixel values
-    var previous_frame = [];
-    // choose a brightness threshold, if the old pixel values differs enough then we know there's movement
-    var threshold = 15;
-    var alert = 0;
-
-
-    function StreamToCanvas2D() {
-      const w = video.videoWidth;
-      const h = video.videoHeight;
-      canvasD.width = w;
-      canvasD.height = h;
-      ctxD.drawImage(video, 0, 0, w, h);
-      let data = ctxD.getImageData(0, 0, w, h).data;
-      for (var y = 0; y < h; y += sample_size) {
-        for (var x = 0; x < w; x += sample_size) {
-          var pos = (x + y * w) * 4;
-          var r = data[pos];
-          var g = data[pos + 1];
-          var b = data[pos + 2];
-          if (
-            previous_frame[pos] &&
-            Math.abs(previous_frame[pos] - r) > threshold
-          ) {
-            ctxD.fillStyle = "rgb(" + 0 + "," + 0 + "," + 150 + ")";
-            ctxD.fillRect(x, y, sample_size, sample_size);
-            alert = alert + 1;
-          }
-          // store these colour values to compare to the next frame
-          previous_frame[pos] = r;
-        }
-      }
-      if (alert > 20 && snapShotChecked === true) {
-        console.log(alert);
-        startPhoto()
-      }
-
-      alert = 0;
-    }
-
-    var startPhoto = _.throttle(function takePhoto() {
-      const link = document.createElement("a");
-      const info = document.createElement("p");
-      const strip = document.querySelector(".strip");
-      const data = canvas.toDataURL("image/jpeg");
-      if (watsonChecked === true) {
-        fetch("/receive", {
-          method: "POST",
-          body: data
+      // Streaming to Canvas from Raspberry PI with Express Socket
+      // <canvas> WEBGL(H264) This Canvas is not showing up on page it runs in the background
+        const button = document.querySelector("button");
+        button.addEventListener("click",function () {
+          console.log("button worked")
+          video.play();
         })
-          .then(response => response.json())
-          .then(response =>
-            response.images[0].classifiers[0].classes.map(
-              object => object.class + " score: " + object.score
-            )
-          )
-          .then(response => {
-            info.innerHTML = response;
-            return response;
-          })
-          .then(response => console.log(response));
+        firstVid()
+      play();
+      function firstVid () {
+        const wsavc = new WSAvcPlayer(canvas, "webgl");
+        const protocol = window.location.protocol === "http:" ? "ws:" : "wss:";
+        wsavc.connect(protocol + "//" + "192.168.0.118:8181" + "/video-stream");
       }
-      link.href = data;
-      link.setAttribute("download", "raspiImage");
-      link.innerHTML = `<img src="${data}" alt="AI Picture" />`;
-      strip.insertBefore(link, strip.firstElementChild);
-      strip.insertBefore(info, strip.firstElementChild);
-    }, 20000)
 
-  </script>
+        function getStream () {
+          const stream = canvas.captureStream(25);
+          return stream;
+        }
+
+          //const stream = canvas.captureStream();
+
+          function play () {
+            video.srcObject = getStream()
+            return video.play();
+          }
+
+
+
+
+
+
+
+
+
+      //Streaming to <canvasD> ctx 2D
+      //Pixelisation Size
+      var sample_size = 10;
+      // make an array to hold our old pixel values
+      var previous_frame = [];
+      // choose a brightness threshold, if the old pixel values differs enough then we know there's movement
+      var threshold = 15;
+      var alert = 0;
+
+      function StreamToCanvas2D() {
+        const w = 640;
+        const h = 480;
+        // const w = video.videoWidth;
+        // const h = video.videoHeight;
+        canvasD.width = w;
+        canvasD.height = h;
+        ctxD.drawImage(video, 0, 0, w, h);
+        // get the screen's pixels data
+
+        let data = ctxD.getImageData(0, 0, w, h).data;
+
+        // loop through rows and columns
+        for (var y = 0; y < h; y += sample_size) {
+          for (var x = 0; x < w; x += sample_size) {
+            //Formula to get the pixel position in the array
+            var pos = (x + y * w) * 4;
+            //Getting pixel colors R G B
+            var r = data[pos];
+            var g = data[pos + 1];
+            var b = data[pos + 2];
+            // draw the pixels as blocks of colours
+            // first check if it's not the first frame, but
+            // seeing of when the previous_frame array
+            // is not we empty, and then only draw something if there's
+
+            if (
+              previous_frame[pos] &&
+              Math.abs(previous_frame[pos] - r) > threshold
+            ) {
+              ctxD.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+              ctxD.fillRect(x, y, sample_size, sample_size);
+              alert = alert + 1;
+              // a significant colour difference
+            }
+
+            // store these colour values to compare to the next frame
+            previous_frame[pos] = r;
+          }
+        }
+        if (alert > 60 && snapShotChecked == true ) {
+          console.log(alert);
+          takePhoto();
+        }
+        alert = 0;
+      }
+
+      function takePhoto() {
+        const strip = document.querySelector(".strip");
+        const post = new XMLHttpRequest();
+        const data = canvas.toDataURL("image/jpeg");
+        //post.open("POST", "/receive");
+        //post.send(data);
+        const link = document.createElement("a");
+        link.href = data;
+        link.setAttribute("download", "raspiImage");
+        link.innerHTML = `<img src="${data}" alt="AI Picture" />`;
+        strip.insertBefore(link, strip.firstElementChild);
+      }
+    </script>
+
 </html>
